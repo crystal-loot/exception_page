@@ -2,6 +2,8 @@
 
 A library for displaying exceptional exception web pages for easier debugging.
 
+![screen shot 2018-06-29 at 2 39 18 pm](https://user-images.githubusercontent.com/22394/42109073-6e767d06-7baa-11e8-9ec9-0a2afce605be.png)
+
 ## Installation
 
 Add this to your application's `shard.yml`:
@@ -35,10 +37,49 @@ end
 Render the HTML when an exception occurs:
 
 ```crystal
-begin
-  raise SomeError
-rescue e
+class MyErrorHandler
+  include HTTP::Handler
 
+  def call_next(context)
+    begin
+      # Normally you'd call some code to handle the request
+      # We're hard-coding an error here to show you how to use the lib.
+      raise SomeError.new("Something went wrong")
+    rescue e
+      context.response.status_code = 500
+      context.response.print MyApp::ExceptionPage.for_runtime_exception(context, e).to_s
+    end
+  end
+```
+
+## Customizing the page
+
+```crystal
+class MyApp::ExceptionPage < ExceptionPage
+  def styles
+    ExceptionPage::Styles.new(
+      accent: "purple", # Required
+      highlight: "gray", # Optional
+      flash_highlight: "red", # Optional
+      logo_uri: "base64_encoded_data_uri" # Generate one here: https://dopiaza.org/tools/datauri/index.php
+    )
+  end
+
+  # Optional
+  def stack_trace_heading_html
+    <<-HTML
+    <a href="#" onclick="sayHi()">Say hi</a>
+    HTML
+  end
+
+  # Optional
+  def extra_javascript
+    <<-JAVASCRIPT
+    window.sayHi = function() {
+      alert("Say Hi!");
+    }
+    JAVASCRIPT
+  end
 end
 ```
 

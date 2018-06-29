@@ -1,3 +1,4 @@
+# :nodoc:
 class ExceptionPage::FrameGenerator
   def self.generate_frames(message)
     generated_frames = [] of Frame
