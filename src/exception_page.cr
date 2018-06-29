@@ -12,11 +12,20 @@ abstract class ExceptionPage
   @path : String
   @message : String
   @query : String
-  @reload_code = ""
   @frames = [] of Frame
   @title : String
 
   abstract def styles : Styles
+
+  # Override this method to add extra HTML to the top of the stack trace heading
+  def stack_trace_heading_html
+    ""
+  end
+
+  # Override this method to add extra javascript to the page
+  def extra_javascript
+    ""
+  end
 
   def initialize(context : HTTP::Server::Context, @message, @title, @frames)
     @params = context.request.query_params.to_h
