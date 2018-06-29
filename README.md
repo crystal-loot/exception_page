@@ -97,8 +97,8 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [@paulcsmith](https://github.com/paulcsmith) Paul Smith - creator, maintainer
-- [@faustinoaq](https://github.com/faustinoaq) Faustino Aigular - extracted from the [Amber PR adding exception pages](https://github.com/amberframework/amber/pull/864)
+- [@paulcsmith](https://github.com/paulcsmith) Paul Smith
+- [@faustinoaq](https://github.com/faustinoaq) Faustino Aigular - Wrote the initial [Amber PR adding exception pages](https://github.com/amberframework/amber/pull/864)
 
 ## Special Thanks
 
