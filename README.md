@@ -14,8 +14,32 @@ dependencies:
 
 ## Usage
 
+Require the shard:
+
 ```crystal
 require "exception_page"
+```
+
+Create an exception page:
+
+```crystal
+class MyApp::ExceptionPage < ExceptionPage
+  def styles
+    ExceptionPage::Styles.new(
+      accent: "purple", # Choose the HTML color value. Can be hex
+    )
+  end
+end
+```
+
+Render the HTML when an exception occurs:
+
+```crystal
+begin
+  raise SomeError
+rescue e
+
+end
 ```
 
 ## Development
