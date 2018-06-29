@@ -658,7 +658,7 @@ monospace_font = "menlo, consolas, monospace"
 
             <div class="stack-trace">
                 <div class="stack-trace-heading">
-                    <label><input type="checkbox" role="reload-toggle" checked="true"> Watch server changes</label>
+                    <%= stack_trace_heading_html %>
                     <label><input type="checkbox" role="show-all-toggle" flow-id="show-all-frames"> Show all frames</label>
                 </div>
 
@@ -748,8 +748,6 @@ monospace_font = "menlo, consolas, monospace"
 
         on(toggle, 'click', toggleOnclick);
 
-
-
         // Auto-check "show all" if there are no app frames.
         if (document.querySelectorAll('[role~="stack-trace-list"] .-app').length === 0) {
             toggle.checked = true;
@@ -763,16 +761,6 @@ monospace_font = "menlo, consolas, monospace"
                 removeClass(list, '-show-all');
             }
         }
-
-        function reloadOnclick() {
-            if (this.checked) {
-                recursiveReload();
-            } else {
-                clearTimeout(reloadTimeout);
-            }
-        }
-
-        <%= @reload_code %>
 
         function itemOnclick() {
             var idx = this.getAttribute('data-index')
@@ -843,6 +831,8 @@ monospace_font = "menlo, consolas, monospace"
                 });
             }
         }
+
+        <%= extra_javascript %>
     }());
     </script>
 </body>
