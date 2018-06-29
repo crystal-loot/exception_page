@@ -1,3 +1,4 @@
+# :nodoc:
 struct ExceptionPage::Frame
   property index : Int32, raw_frame : Regex::MatchData
 

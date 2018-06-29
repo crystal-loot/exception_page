@@ -4,6 +4,7 @@ end
 require "ecr"
 require "./exception_page/*"
 
+# :nodoc:
 abstract class ExceptionPage
   @params : Hash(String, String)
   @headers : Hash(String, Array(String))
@@ -27,6 +28,7 @@ abstract class ExceptionPage
     ""
   end
 
+  # :nodoc:
   def initialize(context : HTTP::Server::Context, @message, @title, @frames)
     @params = context.request.query_params.to_h
     @headers = context.response.headers.to_h
