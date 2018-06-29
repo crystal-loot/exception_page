@@ -1,0 +1,9 @@
+name: exception_page
+version: 0.1.0
+
+authors:
+  - Paul Smith <paulcsmith0218@gmail.com>
+
+crystal: 0.25.0
+
+license: MIT
