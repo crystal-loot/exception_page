@@ -1,6 +1,6 @@
-# exception_page
+# Exception Page
 
-A library for displaying exceptional exception web pages for easier debugging.
+A library for displaying exceptional exception pages for easier debugging.
 
 ![screen shot 2018-06-29 at 2 39 18 pm](https://user-images.githubusercontent.com/22394/42109073-6e767d06-7baa-11e8-9ec9-0a2afce605be.png)
 
