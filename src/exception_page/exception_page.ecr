@@ -1,4 +1,3 @@
-<!-- This Amber Framework exception page is based on Phoenix Framework exception page by Rico Sta. Cruz (@rstacruz) -->
 <%-
 monospace_font = "menlo, consolas, monospace"
 -%>
@@ -601,7 +600,11 @@ monospace_font = "menlo, consolas, monospace"
 </head>
 <body>
     <div class="top-details">
-        <a class="exception-logo" href="https://amberframework.org" target="_blank"></a>
+        <%- if project_url -%>
+        <a class="exception-logo" href="<%= project_url %>" target="_blank"></a>
+        <%- else %>
+        <div class="exception-logo"></div>
+        <%- end %>
         <header class="exception-info" flow-id="exception-title">
             <h5 class="struct">
                 <%= @title %>
