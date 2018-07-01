@@ -61,8 +61,13 @@ class MyApp::ExceptionPage < ExceptionPage
       accent: "purple", # Required
       highlight: "gray", # Optional
       flash_highlight: "red", # Optional
-      logo_uri: "base64_encoded_data_uri" # Defaults to Crystal logo. Generate a logo here: https://dopiaza.org/tools/datauri/index.php
+      logo_uri: "base64_encoded_data_uri" # Optional. Defaults to Crystal logo. Generate a logo here: https://dopiaza.org/tools/datauri/index.php
     )
+  end
+
+  # Optional. If provided, clicking the logo will open this page
+  def project_url
+    "https://myproject.com
   end
 
   # Optional

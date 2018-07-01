@@ -18,6 +18,11 @@ abstract class ExceptionPage
 
   abstract def styles : Styles
 
+  # Add an optional link to your project
+  def project_url : String?
+    nil
+  end
+
   # Override this method to add extra HTML to the top of the stack trace heading
   def stack_trace_heading_html
     ""
