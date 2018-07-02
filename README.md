@@ -67,7 +67,7 @@ class MyApp::ExceptionPage < ExceptionPage
 
   # Optional. If provided, clicking the logo will open this page
   def project_url
-    "https://myproject.com
+    "https://myproject.com"
   end
 
   # Optional
