@@ -49,12 +49,10 @@ struct ExceptionPage::Frame
 
   def label : String
     case file
-    when .includes?("/crystal/")
+    when .includes?("/crystal/"), .includes?("/crystal-lang/")
       "crystal"
-    when .includes?("/crystal-lang/")
-      "crystal"
-    when .includes?("lib/")
-      "shard"
+    when /lib\/(?<name>[^\/]+)\/.+/
+      $~["name"]
     else
       "app"
     end
