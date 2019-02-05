@@ -8,7 +8,7 @@ include LuckyFlow::Expectations
 
 server = TestServer.new(3002)
 
-LuckyFlow.configure do
+LuckyFlow.configure do |settings|
   settings.base_uri = "http://localhost:3002"
   settings.stop_retrying_after = 40.milliseconds
 end
