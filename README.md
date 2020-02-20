@@ -26,7 +26,7 @@ Create an exception page:
 
 ```crystal
 class MyApp::ExceptionPage < ExceptionPage
-  def styles
+  def styles : Styles
     ExceptionPage::Styles.new(
       accent: "purple", # Choose the HTML color value. Can be hex
     )
@@ -56,7 +56,7 @@ class MyErrorHandler
 
 ```crystal
 class MyApp::ExceptionPage < ExceptionPage
-  def styles
+  def styles : Styles
     ExceptionPage::Styles.new(
       accent: "purple", # Required
       highlight: "gray", # Optional
