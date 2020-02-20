@@ -1,7 +1,10 @@
 class TestServer
-  delegate listen, close, to: @server
+  getter addr : Socket::IPAddress
 
-  def initialize(port : Int32)
+  delegate :listen, :close,
+    to: @server
+
+  def initialize(port : Int32? = nil)
     @server = HTTP::Server.new do |context|
       if context.request.resource == "/favicon.ico"
         context.response.print ""
@@ -14,7 +17,11 @@ class TestServer
         end
       end
     end
-    @server.bind_tcp port: port
+    if port
+      @addr = @server.bind_tcp(port: port)
+    else
+      @addr = @server.bind_unused_port
+    end
   end
 end
 
