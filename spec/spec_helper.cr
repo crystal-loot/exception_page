@@ -1,15 +1,14 @@
-require "spec"
-require "lucky_flow"
 require "http"
+require "lucky_flow"
 require "../src/exception_page"
-require "./support/**"
+require "./support/*"
 
 include LuckyFlow::Expectations
 
-server = TestServer.new(3002)
+server = TestServer.new
 
 LuckyFlow.configure do |settings|
-  settings.base_uri = "http://localhost:3002"
+  settings.base_uri = "http://#{server.addr}"
   settings.stop_retrying_after = 40.milliseconds
 end
 
@@ -23,3 +22,5 @@ at_exit do
 end
 
 Habitat.raise_if_missing_settings!
+
+require "spec"

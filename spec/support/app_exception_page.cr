@@ -1,5 +1,5 @@
 class MyApp::ExceptionPage < ExceptionPage
-  def styles
+  def styles : Styles
     Styles.new(accent: "purple")
   end
 

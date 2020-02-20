@@ -625,12 +625,14 @@ monospace_font = "menlo, consolas, monospace"
             </h5>
             <h1 class="title"><%= HTML.escape(headline).gsub("&#39;", '\'').gsub("&quot;", '"') %></h1>
             <details class="meta">
-                <summary class="frame-summary">
+                <summary class="frame-summary" flow-id="see-raw-error-message">
                 See raw message
                 </summary>
-<pre class="code code-block" flow-id="code-preview"><%- details.each do |detail| -%><span class="line"><span class="code"><%= HTML.escape(detail).gsub("&#39;", '\'').gsub("&quot;", '"') %></span></span>
-<%- end -%>
-</pre>
+                <pre class="code code-block" flow-id="raw-error-message">
+                    <%- details.each do |detail| -%>
+                        <span class="line"><span class="code"><%= HTML.escape(detail).gsub("&#39;", '\'').gsub("&quot;", '"') %></span>
+                    <%- end -%>
+                </pre>
             </details>
         </header>
         <% if !@frames.empty? %>
