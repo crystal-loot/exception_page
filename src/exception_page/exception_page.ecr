@@ -18,7 +18,7 @@ monospace_font = "menlo, consolas, monospace"
 <html>
 <head>
     <%
-        details = @message.split('\n')
+        details = @message.lines
         headline = details.first
     %>
     <meta charset="utf-8">
@@ -708,8 +708,8 @@ monospace_font = "menlo, consolas, monospace"
             <summary>Params</summary>
             <% @params.each do |key, value| %>
             <dl>
-                <dt><%= key %></dt>
-                <dd><pre><%= value.inspect %></pre></dd>
+                <dt><%= HTML.escape(key) %></dt>
+                <dd><pre><%= HTML.escape(value.inspect) %></pre></dd>
             </dl>
             <% end %>
         </details>
@@ -720,12 +720,12 @@ monospace_font = "menlo, consolas, monospace"
 
             <dl>
                 <dt>URI:</dt>
-                <dd class="code-quote"><%= @url %></dd>
+                <dd class="code-quote"><%= HTML.escape(@url) %></dd>
             </dl>
 
             <dl>
                 <dt>Query string:</dt>
-                <dd class="code-quote"><%= @query %></dd>
+                <dd class="code-quote"><%= HTML.escape(@query) %></dd>
             </dl>
         </details>
 
@@ -733,8 +733,8 @@ monospace_font = "menlo, consolas, monospace"
             <summary>Headers</summary>
             <% @headers.each do |key, value| %>
             <dl>
-                <dt><%= key %></dt>
-                <dd class="code-quote"><%= value %></dd>
+                <dt><%= HTML.escape(key) %></dt>
+                <dd class="code-quote"><%= HTML.escape(value.inspect) %></dd>
             </dl>
             <% end %>
         </details>
@@ -744,8 +744,8 @@ monospace_font = "menlo, consolas, monospace"
             <summary>Session</summary>
             <% session.each do |key, value| %>
             <dl>
-                <dt><%= key %></dt>
-                <dd><pre><%= value.inspect %></pre></dd>
+                <dt><%= HTML.escape(key) %></dt>
+                <dd><pre><%= HTML.escape(value.inspect) %></pre></dd>
             </dl>
             <% end %>
         </details>
