@@ -8,7 +8,7 @@ authors:
 development_dependencies:
   lucky_flow:
     github: luckyframework/lucky_flow
-    version: ~> 0.2.0
+    version: ~> 0.6.1
 
 crystal: 0.25.0
 
