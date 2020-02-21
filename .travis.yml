@@ -1,5 +1,13 @@
 language: crystal
 
+crystal:
+  - latest
+  - nightly
+
+matrix:
+  allow_failures:
+    - crystal: nightly
+
 addons:
   chrome: stable
 
@@ -10,6 +18,9 @@ before_install:
   # Setup chromedriver for LuckyFlow
   - npm -g install chromedriver --detect_chromedriver_version
   - export DISPLAY=:99.0
+
+install:
+  - shards install
 
 script:
   - crystal spec
