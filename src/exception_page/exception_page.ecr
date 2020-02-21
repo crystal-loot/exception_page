@@ -19,7 +19,7 @@ monospace_font = "menlo, consolas, monospace"
 <head>
     <%
         details = @message.lines
-        headline = details.first
+        headline = details.first? || "Error"
     %>
     <meta charset="utf-8">
     <title><%= @title %> at <%= @method %> <%= @path %> - <%= headline %></title>
