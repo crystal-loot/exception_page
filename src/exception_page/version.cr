@@ -1,3 +1,3 @@
 class ExceptionPage
-  VERSION = "0.1.4"
+  VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}
 end
