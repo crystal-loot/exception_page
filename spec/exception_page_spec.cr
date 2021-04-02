@@ -28,7 +28,7 @@ class ErrorDebuggingFlow < LuckyFlow
   end
 
   def should_be_able_to_view_other_frames
-    el("@code-frame-file", "request_processor.cr").click
-    el("@code-frame-summary", text: "request_processor.cr").should be_on_page
+    el("@code-frame-file", "server.cr").click
+    el("@code-frame-summary", text: "server.cr").should be_on_page
   end
 end
