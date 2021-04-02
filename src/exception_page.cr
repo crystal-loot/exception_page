@@ -39,7 +39,7 @@ abstract class ExceptionPage
     @headers = context.response.headers.to_h
     @method = context.request.method
     @path = context.request.path
-    @url = "#{context.request.host_with_port}#{context.request.path}"
+    @url = "#{@headers["Host"]?}#{context.request.path}"
     @query = context.request.query_params.to_s
     @session = context.response.cookies.to_h
   end
