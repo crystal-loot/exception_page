@@ -10,6 +10,9 @@ server = TestServer.new
 LuckyFlow.configure do |settings|
   settings.base_uri = "http://#{server.addr}"
   settings.stop_retrying_after = 40.milliseconds
+
+  # Enable this setting to watch the browser
+  # settings.driver = LuckyFlow::Drivers::Chrome
 end
 
 spawn do
