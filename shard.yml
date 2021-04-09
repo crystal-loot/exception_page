@@ -4,6 +4,12 @@ version: 0.1.5
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
   - Faustino Aguilar
+  - Sijawusz Pur Rahnama <sija@sija.pl>
+
+dependencies:
+  backtracer:
+    github: Sija/backtracer.cr
+    version: ~> 1.2.0
 
 development_dependencies:
   lucky_flow:

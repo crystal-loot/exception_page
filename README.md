@@ -104,6 +104,7 @@ TODO: Write development instructions here
 
 - [@paulcsmith](https://github.com/paulcsmith) Paul Smith
 - [@faustinoaq](https://github.com/faustinoaq) Faustino Aigular - Wrote the initial [Amber PR adding exception pages](https://github.com/amberframework/amber/pull/864)
+- [@Sija](https://github.com/paulcsmith) Sijawusz Pur Rahnama
 
 ## Special Thanks
 
