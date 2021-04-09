@@ -1,4 +1,4 @@
-# Exception Page
+# Exception Page [![CI](https://github.com/crystal-loot/exception_page/actions/workflows/ci.yml/badge.svg)](https://github.com/crystal-loot/exception_page/actions/workflows/ci.yml)
 
 A library for displaying exceptional exception pages for easier debugging.
 
