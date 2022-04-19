@@ -43,13 +43,13 @@ monospace_font = "menlo, consolas, monospace"
 
     @media (max-width: 768px) {
         html {
-             font-size: 14px;
+            font-size: 14px;
         }
     }
 
     @media (max-width: 480px) {
         html {
-             font-size: 13px;
+            font-size: 13px;
         }
     }
 
@@ -94,8 +94,8 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Exception logo
-     */
+    * Exception logo
+    */
 
     .exception-logo {
         position: absolute;
@@ -135,8 +135,8 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Exception info
-     */
+    * Exception info
+    */
 
     /* Compensate for logo placement */
     @media (min-width: 769px) {
@@ -189,11 +189,13 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Code explorer
-     */
+    * Code explorer
+    */
 
     .code-explorer {
-      margin: 32px 0 0 0;
+        margin: 32px 0 0 0;
+        position: relative;
+        min-height: 249px;
     }
 
     @media (max-width: 768px) {
@@ -210,8 +212,10 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     .code-explorer > .code-snippets {
-        float: left;
-        width: 45%;
+        width: 55%;
+        margin-left: 45%;
+        padding-left: 32px;
+        padding-top: 8px;
     }
 
     .code-explorer > .stack-trace {
@@ -236,18 +240,22 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Snippets
-     */
+    * Snippets
+    */
 
     .code-snippets {
     }
 
     /*
-     * Frame info:
-     * Holds the code (code-block) and more
-     */
+    * Frame info:
+    * Holds the code (code-block) and more
+    */
 
     .frame-info {
+        position: absolute;
+        left:0;
+        top:0;
+        width:45%;
         background: white;
         box-shadow:
             0 1px 3px rgba(80, 100, 140, .1),
@@ -298,8 +306,8 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Frame details
-     */
+    * Frame details
+    */
 
     .frame-summary.-short {
         color: #a0a0a0;
@@ -316,9 +324,9 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Code block:
-     * The `pre` that holds the code
-     */
+    * Code block:
+    * The `pre` that holds the code
+    */
 
     .code-block {
         margin: 0;
@@ -369,8 +377,8 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Empty code
-     */
+    * Empty code
+    */
 
     .code-block-empty {
         text-align: center;
@@ -380,14 +388,15 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Stack trace heading
-     */
+    * Stack trace heading
+    */
 
     .stack-trace-heading {
         padding-top: 8px;
     }
 
-    .stack-trace-heading:after {
+    .stack-trace-heading:after,
+    .stack-trace-heading-after {
         content: '';
         display: block;
         clear: both;
@@ -423,9 +432,9 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Stack trace item:
-     * The clickable line to inspect a stack trace
-     */
+    * Stack trace item:
+    * The clickable line to inspect a stack trace
+    */
 
     .stack-trace-item {
         font-size: <%= 1.2 ** -1 %>em;
@@ -517,9 +526,9 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Code as a blockquote:
-     * Like `pre` but with wrapping
-     */
+    * Code as a blockquote:
+    * Like `pre` but with wrapping
+    */
 
     .code-quote {
         font-family: <%= monospace_font %>;
@@ -536,16 +545,16 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Conn info
-     */
+    * Conn info
+    */
 
     .conn-info {
         border-top: solid 1px #eee;
     }
 
     /*
-     * Conn details
-     */
+    * Conn details
+    */
 
     .conn-details {
     }
@@ -597,27 +606,44 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     .code-snippets [type="radio"] {
-      opacity: 0;
+        opacity: 0;
+        display:none;
     }
 
     .frame-info {
-      display: none;
+        display: none;
     }
 
     .code-snippets [type="radio"]:checked ~ label ~ .frame-info {
-      display: block;
+        display: block;
     }
 
     #show-all-frames[type="checkbox"] ~ label ~ div.code-snippets-wrapper > label.stack-trace-item.-all,
     #show-all-frames[type="checkbox"] ~ label ~ div.code-snippets-wrapper > label.stack-trace-item.-unknown
     {
-      display: none;
+        display: none;
     }
 
     #show-all-frames[type="checkbox"]:checked ~ label ~ div.code-snippets-wrapper > label.stack-trace-item.-all,
     #show-all-frames[type="checkbox"]:checked ~ label ~ div.code-snippets-wrapper > label.stack-trace-item.-unknown
     {
-      display: block;
+        display: block;
+    }
+
+    .frame-info {
+        clear: right;
+    }
+
+    .code-snippets-wrapper label.stack-trace-item.-all{
+        display: none;
+    }
+
+    .code-snippets input[type="checkbox"]:checked .code-snippets-wrapper label.stack-trace-item.-all{
+        display: block;
+    }
+
+    .code-snippets-wrapper input[type="radio"]:checked ~ label{
+        background-color: white;
     }
     </style>
 </head>
