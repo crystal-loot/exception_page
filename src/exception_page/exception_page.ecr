@@ -423,27 +423,6 @@ monospace_font = "menlo, consolas, monospace"
     }
 
     /*
-     * Stack trace
-     */
-
-    .stack-trace-list,
-    .stack-trace-list > li {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-    }
-
-    .stack-trace-list > li > .stack-trace-item.-all,
-    .stack-trace-list > li > .stack-trace-item.-unknown {
-        display: none;
-    }
-
-    .stack-trace-list.-show-all > li > .stack-trace-item.-all,
-    .stack-trace-list.-show-all > li > .stack-trace-item.-unknown {
-        display: block;
-    }
-
-    /*
      * Stack trace item:
      * The clickable line to inspect a stack trace
      */
@@ -616,6 +595,30 @@ monospace_font = "menlo, consolas, monospace"
             font-size: <%= 1.1 ** -1 %>em;
         }
     }
+
+    .code-snippets [type="radio"] {
+      opacity: 0;
+    }
+
+    .frame-info {
+      display: none;
+    }
+
+    .code-snippets [type="radio"]:checked ~ label ~ .frame-info {
+      display: block;
+    }
+
+    #show-all-frames[type="checkbox"] ~ label ~ div.code-snippets-wrapper > label.stack-trace-item.-all,
+    #show-all-frames[type="checkbox"] ~ label ~ div.code-snippets-wrapper > label.stack-trace-item.-unknown
+    {
+      display: none;
+    }
+
+    #show-all-frames[type="checkbox"]:checked ~ label ~ div.code-snippets-wrapper > label.stack-trace-item.-all,
+    #show-all-frames[type="checkbox"]:checked ~ label ~ div.code-snippets-wrapper > label.stack-trace-item.-unknown
+    {
+      display: block;
+    }
     </style>
 </head>
 <body>
@@ -645,64 +648,57 @@ monospace_font = "menlo, consolas, monospace"
         <% unless @frames.empty? %>
         <div class="code-explorer">
             <div class="code-snippets" flow-id="code-frames">
+                <%= stack_trace_heading_html %>
+                <input type="checkbox" role="show-all-toggle" id="show-all-frames" flow-id="show-all-frames">
+                <label for="show-all-frames">Show all frames</label>
+
                 <% @frames.each_with_index do |frame, index| %>
-                  <div class="frame-info" data-index="<%= index %>" role="stack-trace-details">
-                    <%- if context = frame.context -%>
-                        <div class="file">
-                            <a href="#"><%= frame.relative_path || frame.path %></a>
-                        </div>
-                      <pre class="code code-block">
-                        <%- context.to_h.each do |lineno, code| -%>
-                          <%- css_class = (lineno == frame.lineno) ? "-highlight" : nil -%>
-                          <span class="line <%= css_class %>"><span class="ln"><%= lineno %></span><span class="code"><%= HTML.escape(code).gsub("&#39;", '\'').gsub("&quot;", '"') %></span></span>
-                        <%- end -%>
-                      </pre>
-                        <details class="meta">
-                            <summary class="frame-summary" flow-id="code-frame-summary">
-                                <span class="app"><%= label_for_frame(frame) %></span>
-                                <%= HTML.escape(frame.method) %>
-                            </summary>
-                            <blockquote class="code-quote -padded"><%= HTML.escape(context.line.to_s.strip).gsub("&#39;", '\'').gsub("&quot;", '"') %></blockquote>
-                        </details>
-                    <%- else -%>
-                      <div class="file">
-                          <a href="#"><%= HTML.escape(frame.method) %></a>
-                      </div>
-                      <div class="code code-block-empty">No code available.</div>
-                    <%- end -%>
-                </div>
-                <% end %>
-            </div>
-
-            <div class="stack-trace">
-                <div class="stack-trace-heading">
-                    <%= stack_trace_heading_html %>
-                    <label><input type="checkbox" role="show-all-toggle" flow-id="show-all-frames"> Show all frames</label>
-                </div>
-
-                <ul class="stack-trace-list" role="stack-trace-list">
-                    <% @frames.each_with_index do |frame, index| %>
-                    <li>
-                        <button flow-id="code-frame-file" class="stack-trace-item -<%= css_class_for_frame(frame) %>" role="stack-trace-item" data-index="<%= index %>">
-                            <%- path = frame.relative_path || frame.path -%>
-                            <span class="left">
-                                <span class="app"><%= label_for_frame(frame) %></span>
-                                <span class="filename">
-                                  <%- if path -%>
-                                    <%= path %><% if frame.lineno %><span class="line">:<%= frame.lineno %></span><% end %>
-                                  <%- else -%>
-                                    <%= HTML.escape(frame.method) %>
-                                  <%- end -%>
-                                </span>
-                            </span>
-
+                  <div class="code-snippets-wrapper">
+                    <input type="radio" id="trace<%= index %>" name="stack-trace-list" <%= index == 0 ? "checked" : "" %> >
+                    <label for="trace<%= index %>" class="stack-trace-item -<%= css_class_for_frame(frame) %>">
+                      <%- path = frame.relative_path || frame.path -%>
+                      <span class="left">
+                          <span class="app"><%= label_for_frame(frame) %></span>
+                          <span class="filename">
                             <%- if path -%>
-                                <span class="info"><%= File.basename(path) %></span>
+                              <%= path %><% if frame.lineno %><span class="line">:<%= frame.lineno %></span><% end %>
+                            <%- else -%>
+                              <%= HTML.escape(frame.method) %>
                             <%- end -%>
-                        </button>
-                    </li>
-                    <% end %>
-                </ul>
+                          </span>
+                      </span>
+
+                      <%- if path -%>
+                          <span class="info"><%= File.basename(path) %></span>
+                      <%- end -%>
+                    </label>
+                    <div class="frame-info" role="stack-trace-details">
+                      <%- if context = frame.context -%>
+                          <div class="file">
+                              <a href="#"><%= frame.relative_path || frame.path %></a>
+                          </div>
+                        <pre class="code code-block">
+                          <%- context.to_h.each do |lineno, code| -%>
+                            <%- css_class = (lineno == frame.lineno) ? "-highlight" : nil -%>
+                            <span class="line <%= css_class %>"><span class="ln"><%= lineno %></span><span class="code"><%= HTML.escape(code).gsub("&#39;", '\'').gsub("&quot;", '"') %></span></span>
+                          <%- end -%>
+                        </pre>
+                          <details class="meta">
+                              <summary class="frame-summary" flow-id="code-frame-summary">
+                                  <span class="app"><%= label_for_frame(frame) %></span>
+                                  <%= HTML.escape(frame.method) %>
+                              </summary>
+                              <blockquote class="code-quote -padded"><%= HTML.escape(context.line.to_s.strip).gsub("&#39;", '\'').gsub("&quot;", '"') %></blockquote>
+                          </details>
+                      <%- else -%>
+                        <div class="file">
+                            <a href="#"><%= HTML.escape(frame.method) %></a>
+                        </div>
+                        <div class="code code-block-empty">No code available.</div>
+                      <%- end -%>
+                    </div>
+                  </div>
+                <% end %>
             </div>
         </div>
         <% end %>
@@ -757,107 +753,5 @@ monospace_font = "menlo, consolas, monospace"
         </details>
         <% end %>
     </div>
-
-    <script>
-    (function () {
-        var items = document.querySelectorAll('[role~="stack-trace-item"]');
-        var toggle = document.querySelector('[role~="show-all-toggle"]');
-
-        var list = document.querySelector('[role~="stack-trace-list"]');
-
-
-        each(items, function (item) {
-            on(item, 'click', itemOnclick);
-        })
-
-        on(toggle, 'click', toggleOnclick);
-
-        // Auto-check "show all" if there are no app frames.
-        if (document.querySelectorAll('[role~="stack-trace-list"] .-app').length === 0) {
-            toggle.checked = true;
-            toggleOnclick.call(toggle);
-        }
-
-        function toggleOnclick() {
-            if (this.checked) {
-                addClass(list, '-show-all');
-            } else {
-                removeClass(list, '-show-all');
-            }
-        }
-
-        function itemOnclick() {
-            var idx = this.getAttribute('data-index')
-
-            var detail = document.querySelector('[role~="stack-trace-details"].-active');
-            if (detail) {
-                removeClass(detail, '-active');
-            }
-
-            detail = document.querySelector('[role~="stack-trace-details"][data-index="' + idx + '"]')
-            if (detail) {
-                addClass(detail, '-active')
-            }
-
-            var item = document.querySelector('[role~="stack-trace-item"].-active')
-            if (item) {
-                removeClass(item, '-active')
-            }
-
-            item = document.querySelector('[role~="stack-trace-item"][data-index="' + idx + '"]')
-            if (item) {
-                addClass(item, '-active')
-            }
-        }
-
-        var first =
-            document.querySelector('[role~="stack-trace-item"].-app:first-of-type') ||
-            document.querySelector('[role~="stack-trace-item"]:first-of-type');
-
-        if (first) {
-            itemOnclick.call(first);
-        }
-
-        /*
-        * Helpers
-        */
-
-        function each(list, fn) {
-            for (var i = 0, len = list.length; i < len; i++) {
-                var item = list[i];
-                fn(item);
-            }
-        }
-
-        function addClass(el, className) {
-            if (el.classList) {
-                el.classList.add(className);
-            } else {
-                el.className += ' ' + className;
-            }
-        }
-
-        function removeClass(el, className) {
-            if (el.classList) {
-                el.classList.remove(className);
-            } else {
-                var expr = new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi');
-                el.className = el.className.replace(expr, ' ');
-            }
-        }
-
-        function on(el, event, handler) {
-            if (el.addEventListener) {
-                el.addEventListener(event, handler);
-            } else {
-                el.attachEvent('on' + event, function () {
-                    handler.call(el);
-                });
-            }
-        }
-
-        <%= extra_javascript %>
-    }());
-    </script>
 </body>
 </html>
