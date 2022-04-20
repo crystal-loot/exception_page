@@ -119,12 +119,9 @@ monospace_font = "menlo, consolas, monospace"
 
     @media (max-width: 768px) {
         .exception-logo {
-            position: static;
-        }
-
-        .exception-logo:before {
-            height: 32px;
-            background-position: left 0;
+            right: 32px;
+            top: 6px;
+            width: 48px;
         }
     }
 
@@ -174,6 +171,11 @@ monospace_font = "menlo, consolas, monospace"
     @media (max-width: 768px) {
         .exception-info > .title {
             font-size: <%= 1.15 **  4 %>em;
+        }
+
+        /* Compensate for logo placement */
+        .exception-info > .struct {
+            margin-right: 48px;
         }
     }
 
