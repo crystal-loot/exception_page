@@ -793,10 +793,12 @@ monospace_font = "menlo, consolas, monospace"
         <% end %>
     </div>
 
+    <% if custom_js = extra_javascript.presence %>
     <script>
     (function () {
-        <%= extra_javascript %>
+        <%= custom_js %>
     }());
     </script>
+    <% end %>
 </body>
 </html>
