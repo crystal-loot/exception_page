@@ -393,6 +393,12 @@ monospace_font = "menlo, consolas, monospace"
 
     .stack-trace-heading {
         padding-top: 8px;
+        padding-left: 8px;
+        font-size: <%= 1.2 ** -1 %>em;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     .stack-trace-heading:after,
@@ -410,23 +416,12 @@ monospace_font = "menlo, consolas, monospace"
         display: none;
     }
 
-    .stack-trace-heading > label {
-        display: block;
-        padding-left: 8px;
-        line-height: 1.9;
-        font-size: <%= 1.2 ** -1 %>em;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    .stack-trace-heading > label > input {
+    #show-all-frame {
         margin-right: .3em;
     }
 
     @media (max-width: 480px) {
-        .stack-trace-heading > label {
+        .stack-trace-heading {
             font-size: <%= 1.1 ** -1 %>em;
         }
     }
@@ -689,7 +684,7 @@ monospace_font = "menlo, consolas, monospace"
             <div class="code-snippets" flow-id="code-frames">
                 <%= stack_trace_heading_html %>
                 <input type="checkbox" role="show-all-toggle" id="show-all-frames" flow-id="show-all-frames">
-                <label for="show-all-frames">Show all frames</label>
+                <label class="stack-trace-heading" for="show-all-frames">Show all frames</label>
 
                 <% @frames.each_with_index do |frame, index| %>
                   <div class="code-snippets-wrapper">
