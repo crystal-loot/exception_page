@@ -269,6 +269,12 @@ monospace_font = "menlo, consolas, monospace"
         font-size: <%= 1.2 ** -1 %>em;
     }
 
+    @media (max-width: 768px) {
+      .frame-info {
+        position: static;
+      }
+    }
+
     @media (max-width: 480px) {
         .frame-info > .meta,
         .frame-info > .file {
@@ -604,7 +610,6 @@ monospace_font = "menlo, consolas, monospace"
         .code-explorer > .code-snippets {
             margin-left: 0;
             padding-left: 0;
-            margin-top: 320px;
         }
 
         .frame-info {
