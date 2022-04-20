@@ -1,7 +1,5 @@
 class ExceptionPage
-  macro set_version
+  {% begin %}
     VERSION = {{ `shards version "#{__DIR__}"`.chomp.stringify.downcase }}
-  end
-
-  set_version
+  {% end %}
 end
