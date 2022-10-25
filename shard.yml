@@ -14,11 +14,11 @@ dependencies:
 development_dependencies:
   lucky_flow:
     github: luckyframework/lucky_flow
-    version: ~> 0.7.3
+    version: ~> 0.9.0
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.14.3
+    version: ~> 1.2.0
 
-crystal: ">= 0.33.0"
+crystal: ">= 1.6.0"
 
 license: MIT
