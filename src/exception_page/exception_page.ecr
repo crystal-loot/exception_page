@@ -694,7 +694,7 @@
                 <label class="stack-trace-heading" for="show-all-frames">Show all frames</label>
 
                 <% @frames.each_with_index do |frame, index| %>
-                  <div class="code-snippets-wrapper">
+                  <div class="code-snippets-wrapper" flow-id="code-frame-file">
                     <input type="radio" id="trace<%= index %>" name="stack-trace-list" <%= index == 0 ? "checked" : "" %> >
                     <label for="trace<%= index %>" class="stack-trace-item -<%= css_class_for_frame(frame) %>">
                       <%- path = frame.relative_path || frame.path -%>

@@ -1,22 +1,10 @@
 class TestServer
   getter addr : Socket::IPAddress
 
-  delegate :listen, :close,
-    to: @server
+  delegate :listen, :close, to: @server
 
   def initialize(port : Int32? = nil)
-    @server = HTTP::Server.new do |context|
-      if context.request.resource == "/favicon.ico"
-        context.response.print ""
-      else
-        begin
-          raise CustomException.new("Something went very wrong")
-        rescue e : CustomException
-          context.response.content_type = "text/html"
-          context.response.print MyApp::ExceptionPage.for_runtime_exception(context, e).to_s
-        end
-      end
-    end
+    @server = HTTP::Server.new([TestHandler.new])
     if port
       @addr = @server.bind_tcp(port: port)
     else
