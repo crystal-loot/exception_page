@@ -17,10 +17,10 @@ class ErrorDebuggingFlow < LuckyFlow
   end
 
   def should_have_information_for_debugging
-    el("@exception-title", text: "Something went very wrong").should be_on_page
-    el("@code-frames", text: "test_server.cr").should be_on_page
+    current_page.should have_element("@exception-title", text: "Something went very wrong")
+    current_page.should have_element("@code-frames", text: "test_server.cr")
     click("@see-raw-error-message")
-    el("@raw-error-message").should be_on_page
+    current_page.should have_element("@raw-error-message")
   end
 
   def show_all_frames
@@ -29,6 +29,11 @@ class ErrorDebuggingFlow < LuckyFlow
 
   def should_be_able_to_view_other_frames
     el("@code-frame-file", "server.cr").click
-    el("@code-frame-summary", text: "->").should be_on_page
+    current_page.should have_element("@code-frame-summary", text: "->")
+  end
+
+  # A shim used for readibility in tests
+  private def current_page
+    self
   end
 end

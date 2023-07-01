@@ -1,3 +1,4 @@
+require "spec"
 require "http"
 require "lucky_flow"
 require "../src/exception_page"
@@ -5,25 +6,16 @@ require "./support/*"
 
 include LuckyFlow::Expectations
 
-server = TestServer.new
-
 LuckyFlow.configure do |settings|
-  settings.base_uri = "http://#{server.addr}"
+  settings.base_uri = "http://local.test"
   settings.stop_retrying_after = 40.milliseconds
-
-  # Enable this setting to watch the browser
-  # settings.driver = LuckyFlow::Drivers::Chrome
 end
 
-spawn do
-  server.listen
+LuckyFlow::Registry.register :webless do
+  LuckyFlow::Webless::Driver.new(TestHandler.new)
 end
 
-at_exit do
-  LuckyFlow.shutdown
-  server.close
-end
+LuckyFlow.default_driver = ENV.fetch("LUCKYFLOW_DRIVER", "webless")
+LuckyFlow::Spec.setup
 
 Habitat.raise_if_missing_settings!
-
-require "spec"

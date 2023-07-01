@@ -1,45 +1,42 @@
-name: CI
+name: Exception Page CI
 
 on:
-  pull_request:
   push:
     branches: [master]
-  schedule:
-    - cron: "0 3 * * 1" # Every monday at 3 AM
+  pull_request:
+    branches: "*"
 
 jobs:
-  test:
+  check_format:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - name: Download source
+        uses: actions/checkout@v3
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+      - name: Install shards
+        run: shards install
+      - name: Format
+        run: crystal tool format --check
+      - name: Lint
+        run: ./bin/ameba
+  specs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        crystal: [0.36.1, latest, nightly]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        crystal_version: [latest]
     runs-on: ${{ matrix.os }}
-
+    continue-on-error: false
     steps:
-      - name: Install Crystal
-        uses: oprypin/install-crystal@v1
+      - uses: actions/checkout@v3
+      - uses: crystal-lang/install-crystal@v1
         with:
-          crystal: ${{ matrix.crystal }}
-
-      - name: Install ChromeDriver
-        run: |
-          sudo apt-get update
-          sudo apt-get -yqq install chromium-chromedriver
-
-      - name: Download source
-        uses: actions/checkout@v2
-
+          crystal: ${{ matrix.crystal_version }}
       - name: Install dependencies
-        run: shards install
-        env:
-          SHARDS_OPTS: --ignore-crystal-version
-
-      - name: Run specs
+        run: shards install --skip-postinstall --skip-executables
+      - name: Run tests
         run: crystal spec
-
-      - name: Check formatting
-        run: crystal tool format --check
-
-      - name: Run ameba linter
-        run: bin/ameba
