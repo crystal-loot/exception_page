@@ -385,6 +385,42 @@
     }
 
     /*
+    * Syntax highlighting
+    */
+
+    .code-block .c, .code-quote .c {
+        color: #969896;
+    }
+
+    .code-block .n, .code-quote .n {
+        color: #0086b3;
+    }
+
+    .code-block .t, .code-quote .t {
+        color: #0086b3;
+    }
+
+    .code-block .s, .code-quote .s {
+        color: #183691;
+    }
+
+    .code-block .i, .code-quote .i {
+        color: #7f5030;
+    }
+
+    .code-block .k, .code-quote .k {
+        color: #a71d5d;
+    }
+
+    .code-block .o, .code-quote .o {
+        color: #a71d5d;
+    }
+
+    .code-block .m, .code-quote .m {
+        color: #795da3;
+    }
+
+    /*
     * Empty code
     */
 
@@ -721,7 +757,7 @@
                         <pre class="code code-block">
                           <%- context.to_h.each do |lineno, code| -%>
                             <%- css_class = (lineno == frame.lineno) ? "-highlight" : nil -%>
-                            <span class="line <%= css_class %>"><span class="ln"><%= lineno %></span><span class="code"><%= HTML.escape(code).gsub("&#39;", '\'').gsub("&quot;", '"') %></span></span>
+                            <span class="line <%= css_class %>"><span class="ln"><%= lineno %></span><span class="code"><%= Crystal::SyntaxHighlighter::HTML.highlight(code) %></span></span>
                           <%- end -%>
                         </pre>
                           <details class="meta">
@@ -729,7 +765,7 @@
                                   <span class="app"><%= label_for_frame(frame) %></span>
                                   <%= HTML.escape(frame.method) %>
                               </summary>
-                              <blockquote class="code-quote -padded"><%= HTML.escape(context.line.to_s.strip).gsub("&#39;", '\'').gsub("&quot;", '"') %></blockquote>
+                              <blockquote class="code-quote -padded"><%= Crystal::SyntaxHighlighter::HTML.highlight(context.line.to_s.strip) %></blockquote>
                           </details>
                       <%- else -%>
                         <div class="file">

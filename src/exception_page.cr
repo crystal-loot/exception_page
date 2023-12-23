@@ -1,3 +1,4 @@
+require "crystal/syntax_highlighter/html"
 require "http/cookie"
 require "ecr"
 require "backtracer"
