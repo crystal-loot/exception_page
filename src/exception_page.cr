@@ -27,6 +27,13 @@ abstract class ExceptionPage
     end
   end
 
+  def host_from_context(context)
+    if host = context.request.headers["Host"]?
+      host = "http://#{host}"
+    end
+    host
+  end
+
   include Helpers
 
   @params : Hash(String, String)
@@ -66,7 +73,7 @@ abstract class ExceptionPage
     @headers = context.response.headers.to_h
     @method = context.request.method
     @path = context.request.path
-    @url = "http://#{context.request.headers["Host"]?}#{context.request.path}"
+    @url = "#{host_from_context(context)}#{context.request.path}"
     @query = context.request.query_params.to_s
     @session = context.response.cookies.to_h
   end
