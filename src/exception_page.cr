@@ -25,13 +25,13 @@ abstract class ExceptionPage
         "all"
       end
     end
-  end
 
-  def host_from_context(context)
-    if host = context.request.headers["Host"]?
-      host = "http://#{host}"
+    def host_from_context(context)
+      if host = context.request.headers["Host"]?
+        host = "http://#{host}"
+      end
+      host
     end
-    host
   end
 
   include Helpers
