@@ -711,6 +711,7 @@
                 <small>at <%= @method %> <%= @path %></small>
             </h5>
             <h1 class="title"><%= HTML.escape(headline).gsub("&#39;", '\'').gsub("&quot;", '"') %></h1>
+            <%- if details.size > 1 %>
             <details class="meta">
                 <summary class="frame-summary" flow-id="see-raw-error-message">
                 See raw message
@@ -721,6 +722,7 @@
                     <%- end -%>
                 </pre>
             </details>
+            <%- end %>
         </header>
         <% unless @frames.empty? %>
         <div class="code-explorer">
