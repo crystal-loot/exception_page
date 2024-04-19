@@ -26,26 +26,57 @@ abstract class ExceptionPage
         "all"
       end
     end
-
-    def host_from_context(context)
-      if host = context.request.headers["Host"]?
-        host = "http://#{host}"
-      end
-      host
-    end
   end
 
   include Helpers
 
-  @params : Hash(String, String)
-  @headers : Hash(String, Array(String))
-  @session : Hash(String, HTTP::Cookie)
+  def self.new(context : HTTP::Server::Context, exception : Exception)
+    new(
+      exception,
+      context.request.method,
+      context.request.path,
+      context.response.status,
+      nil,
+      context.request.query_params,
+      context.response.headers,
+      context.response.cookies,
+      exception.message,
+    )
+  end
+
   @method : String
   @path : String
-  @message : String
-  @query : String
-  @frames : Array(Backtracer::Backtrace::Frame)
+  @status : HTTP::Status
   @title : String
+  @params : URI::Params
+  @headers : HTTP::Headers
+  @cookies : HTTP::Cookies?
+  @message : String
+  @url : String
+  @frames : Array(Backtracer::Backtrace::Frame)
+
+  def initialize(
+    exception : Exception,
+    @method : String,
+    @path : String,
+    @status : HTTP::Status,
+    title : String? = nil,
+    @params : URI::Params? = nil,
+    @headers : HTTP::Headers? = nil,
+    @cookies : HTTP::Cookies? = nil,
+    message : String? = nil,
+    url : String? = nil
+  )
+    @title = title || "An Error Occurred: #{@status.description}"
+    @message = message || "Something went wrong"
+    @url = url || "#{@headers["host"]?}#{@path}"
+
+    @frames = if exception.backtrace?
+                Backtracer.parse(exception.backtrace, configuration: backtracer).frames
+              else
+                [] of Backtracer::Backtrace::Frame
+              end
+  end
 
   abstract def styles : Styles
 
@@ -66,32 +97,6 @@ abstract class ExceptionPage
 
   # Override this method to provide custom `Backtracer` configuration
   def backtracer : Backtracer::Configuration?
-  end
-
-  # :nodoc:
-  def initialize(context : HTTP::Server::Context, @message, @title, @frames)
-    @params = context.request.query_params.to_h
-    @headers = context.response.headers.to_h
-    @method = context.request.method
-    @path = context.request.path
-    @url = "#{host_from_context(context)}#{context.request.path}"
-    @query = context.request.query_params.to_s
-    @session = context.response.cookies.to_h
-  end
-
-  def initialize(context : HTTP::Server::Context, ex : Exception)
-    title = "Error #{context.response.status_code}"
-    frames =
-      if ex.backtrace?
-        Backtracer.parse(ex.backtrace, configuration: backtracer).frames
-      else
-        [] of Backtracer::Backtrace::Frame
-      end
-    initialize(context, ex.message.to_s, title: title, frames: frames)
-  end
-
-  def self.for_runtime_exception(context : HTTP::Server::Context, ex : Exception)
-    new(context, ex)
   end
 
   ECR.def_to_s "#{__DIR__}/exception_page/exception_page.ecr"

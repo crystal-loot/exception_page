@@ -806,7 +806,7 @@
 
             <dl>
                 <dt>Query string:</dt>
-                <dd class="code-quote"><%= HTML.escape(@query) %></dd>
+                <dd class="code-quote"><%= HTML.escape(@params.to_s) %></dd>
             </dl>
         </details>
 
@@ -820,13 +820,13 @@
             <% end %>
         </details>
 
-        <% if (session = @session) && !session.empty? %>
+        <% if (cookies = @cookies) && !cookies.empty? %>
         <details class="conn-details">
             <summary>Session</summary>
-            <% session.each do |key, value| %>
+            <% cookies.each do |cookie| %>
             <dl>
-                <dt><%= HTML.escape(key) %></dt>
-                <dd><pre><%= HTML.escape(value.inspect) %></pre></dd>
+                <dt><%= HTML.escape(cookie.name) %></dt>
+                <dd><pre><%= HTML.escape(cookie.value.inspect) %></pre></dd>
             </dl>
             <% end %>
         </details>

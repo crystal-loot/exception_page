@@ -10,14 +10,14 @@ class TestHandler
         raise CustomException.new("Something went very wrong\nBut wait, there's more!")
       rescue e : CustomException
         context.response.content_type = "text/html"
-        context.response.print MyApp::ExceptionPage.for_runtime_exception(context, e)
+        context.response.print MyApp::ExceptionPage.new context, e
       end
     else
       begin
         raise CustomException.new("Something went very wrong")
       rescue e : CustomException
         context.response.content_type = "text/html"
-        context.response.print MyApp::ExceptionPage.for_runtime_exception(context, e)
+        context.response.print MyApp::ExceptionPage.new context, e
       end
     end
   end
