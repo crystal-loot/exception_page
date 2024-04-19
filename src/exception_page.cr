@@ -61,9 +61,9 @@ abstract class ExceptionPage
     @path : String,
     @status : HTTP::Status,
     title : String? = nil,
-    @params : URI::Params? = nil,
-    @headers : HTTP::Headers? = nil,
-    @cookies : HTTP::Cookies? = nil,
+    @params : URI::Params = URI::Params.new,
+    @headers : HTTP::Headers = HTTP::Headers.new,
+    @cookies : HTTP::Cookies = HTTP::Cookies.new,
     message : String? = nil,
     url : String? = nil
   )
