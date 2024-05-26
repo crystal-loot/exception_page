@@ -267,8 +267,15 @@
     .frame-info > .meta,
     .frame-info > .file {
         padding: 12px 16px;
-        white-space: no-wrap;
+        white-space: nowrap;
         font-size: <%= 1.2 ** -1 %>em;
+    }
+
+    .frame-info > .file {
+        display: inline-block;
+        vertical-align: top;
+        width: 100%;
+        overflow: auto hidden;
     }
 
     @media (max-width: 768px) {
