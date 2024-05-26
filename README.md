@@ -47,7 +47,7 @@ class MyErrorHandler
       raise SomeError.new("Something went wrong")
     rescue e
       context.response.status_code = 500
-      context.response.print MyApp::ExceptionPage.for_runtime_exception(context, e).to_s
+      context.response.print MyApp::ExceptionPage.new context, e
     end
   end
 ```
