@@ -16,6 +16,10 @@ describe ExceptionPage do
     flow.view_error_page
     flow.should_have_additional_message_lines
   end
+
+  it "allows instantiating one manually" do
+    MyApp::ExceptionPage.new Exception.new("Oh noes"), "SEARCH", "/users", :im_a_teapot
+  end
 end
 
 class ErrorDebuggingFlow < LuckyFlow
